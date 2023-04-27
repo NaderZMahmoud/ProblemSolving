@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +12,143 @@ namespace ProblemSolvingSolutions
 {
     public static class Algorithems
     {
+        /// <summary>
+        /// Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static int AddDigits(int num)
+        {
+            if (num == 0) return 0;
+            int rem = num % 9;
+            if (rem > 0)
+                return rem;
+            else
+                return 9;
+        }
+        /// <summary>
+        /// Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
+        ///You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public static int[] SingleNumber_III(int[] nums)
+        {
+            if (nums.Length == 2) { return nums; }
+            HashSet<int> map = new HashSet<int>();
+            int[] result = new int[2];
+            foreach (var item in nums)
+            {
+                if (map.Contains(item))
+                    map.Remove(item);
+                else map.Add(item);
+            }
+            result[0] = map.First();
+            result[1] = map.Last();
+            return result;
+
+        }
+        /// <summary>
+        /// Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.
+        /// You must implement a solution with a linear runtime complexity and use only constant extra space.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public static int SingleNumber_II(int[] nums)
+        {
+            if (nums.Length == 1) { return nums[0]; }
+            Dictionary<int,int> map = new Dictionary<int,int>();
+            int result = 0;
+            foreach (var item in nums)
+            {
+                if (map.ContainsKey(item))
+                    map[item] += 1;
+                else map.Add(item, 1);
+            }
+            foreach (var item in map)
+            {
+                if (item.Value == 1)
+                {
+                    result = item.Key;
+                    break;
+                }
+            }
+            return result;
+
+        }
+        public static int SingleNumber_1(int[] nums)
+        {
+            if(nums.Length == 1) { return nums[0]; }    
+            HashSet<int> result = new HashSet<int>();
+            foreach(int num in nums)
+            {
+                if(result.Contains(num))
+                    result.Remove(num);
+                else
+                    result.Add(num);
+            }
+            return result.First();  
+
+        }
+        public static bool IsPalindrome(string s)
+        {
+            string newStr = s.Trim().ToLower();
+            if (newStr == string.Empty)
+                return true;
+
+            StringBuilder sb = new StringBuilder(); 
+            foreach (char c in newStr) {
+            if(Char.IsLetterOrDigit(c))
+                {
+                    sb.Append(c);
+                }
+            }
+            newStr = sb.ToString();
+            if (string.IsNullOrEmpty(newStr))
+            {
+                return true;
+            }
+                int startIndex = 0;
+            int endIndex = newStr.Length;
+            while (startIndex <= endIndex)
+            {
+                if (newStr[startIndex] != newStr[endIndex])
+                    return false;
+
+                startIndex++;
+                endIndex--;
+            }
+            return true;
+        }
+        public static int LengthOfLastWord_2(string s)
+        {
+            bool startCount = false;
+            int counter = 0;
+            for (int i = s.Length-1;i>=0 ;i--)
+            {
+                if (s[i] != ' ' && startCount==false )
+                {
+                    startCount = true;
+                    counter++;
+                }
+                else if (s[i] != ' ' && startCount == true )
+                {
+                    counter++;
+                }
+                else if (s[i] == ' ' && startCount == true)
+                {
+                    return counter;
+                }
+
+            }
+            return counter;
+        }
+        public static int LengthOfLastWord(string s)
+        {
+            string newString = s.Trim();
+            string[] words = newString.Split(' ');
+            return words[words.Length - 1].Length;
+        }
         public static ListNode MiddleNode_SecondApproach(ListNode head)
         {
             // every 2 steps for end pointer = 1 step for middle pointer

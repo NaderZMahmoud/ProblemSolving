@@ -36,7 +36,9 @@ stopwatch.Start();
 //Algorithems.DistributeCandies(new int[] {6,6,6,6 });
 //Algorithems.minimumBribes(new System.Collections.Generic.List<int> { 2,1,5,3,4 });
 // Algorithems.CanConstruct("aa", "aab");
-Algorithems.ClimbStairs(5);
+//Algorithems.ClimbStairs(5);
+//Algorithems.IsPalindrome("A man, a plan, a canal: Panama");
+Algorithems.SingleNumber_III(new int[] { 1, 2, 1, 3, 2, 5 });
 stopwatch.Stop();
 
 Console.WriteLine(stopwatch.ElapsedMilliseconds);
