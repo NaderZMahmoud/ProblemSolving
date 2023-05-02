@@ -13,6 +13,30 @@ namespace ProblemSolvingSolutions
     public static class Algorithems
     {
         /// <summary>
+        /// https://app.codility.com/programmers/lessons/4-counting_elements/perm_check/
+        /// </summary>
+        /// <param name="A"></param>
+        /// <returns></returns>
+        public static int PermCheck(int[] A)
+        {
+            // Implement your solution here
+            if (A.Length == 1 && A[0] != 1)
+                return 0;
+            var map = new HashSet<int>();
+
+            foreach (var item in A)
+            {
+                map.Add(item);
+            }
+            for (int i = 1; i <= A.Length; i++)
+            {
+                if (!map.Contains(i))
+                    return 0;
+            }
+            return 1;
+        }
+
+        /// <summary>
         /// Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
         /// </summary>
         /// <param name="num"></param>
@@ -187,6 +211,23 @@ namespace ProblemSolvingSolutions
 
             return current;
 
+        }
+        public static int ClimbStairs_NoRecurion_NoArray(int n)
+        {
+            if (n == 1)
+            {
+                return 1;
+            }
+            int first = 1;
+            int second = 2;
+            int output = second;
+            for (int i = 3; i <= n; i++)
+            {
+                output = first + second;
+                first = second;
+                second = output;
+            }
+            return output;
         }
         public static int ClimbStairs(int num)
         {
