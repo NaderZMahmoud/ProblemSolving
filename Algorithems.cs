@@ -13,6 +13,232 @@ namespace ProblemSolvingSolutions
     public static class Algorithems
     {
         /// <summary>
+        /// https://app.codility.com/c/run/trainingRT7Y8G-B3D/
+        /// </summary>
+        /// <param name="S"></param>
+        /// <param name="P"></param>
+        /// <param name="Q"></param>
+        /// <returns></returns>
+        public static int[] DNA(string S, int[] P, int[] Q)
+        {
+            var result = new int[P.Length];
+            int minValue = 0;
+            // Implement your solution here
+            Dictionary<char, int> map = new Dictionary<char, int>();
+            map.Add('A', 1);
+            map.Add('C', 2);
+            map.Add('G', 3);
+            map.Add('T', 4);
+            for (int i = 0; i < P.Length; i++)
+            {
+                if (P[i] == Q[i])
+                {
+                    result[i] = map[S[P[i]]];
+                }
+                else
+                {
+                    minValue = map[S[P[i]]];
+                    for (int idx = P[i]; idx <= Q[i]; idx++)
+                    {
+                        if (minValue > map[S[idx]])
+                        {
+                            minValue = map[S[idx]];
+                        }
+                    }
+                    result[i] = minValue;
+
+                }
+
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// https://app.codility.com/c/run/training37X7QY-GTV/
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="B"></param>
+        /// <param name="K"></param>
+        /// <returns></returns>
+        public static int CountDiv(int A, int B, int K)
+        {
+            // Implement your solution here
+            int start = A;
+            int end = B;
+            int counter = 0;
+            if (A == B)
+                return (A % K) == 0 ? 1 : 0;
+
+            if (K > A && K > B)
+            {
+                return 0;
+            }
+            if (K > A)
+            {
+                start = K;
+                //because 0 is dividable by every number
+                if (A == 0)
+                    counter++;
+            }
+
+            for (int i = start; i <= end; i++)
+            {
+                if ((i % K) == 0)
+                {
+                    counter++;
+                }
+            }
+
+            return counter;
+        }
+
+        public static int CountDiv_Optimum(int A, int B, int K)
+        {
+            // get last dividor - first dividor + ( if first number dividable by k + 1 or not +0 )
+            int inclusive = ((A % K) == 0) ? 1 : 0;
+            return (B / K) - (A / K) + inclusive;
+        }
+        /// <summary>
+        /// https://app.codility.com/c/run/trainingZ3DS88-2R3/
+        /// </summary>
+        /// <param name="A"></param>
+        /// <returns></returns>
+        public static int passingCars(int[] A)
+        {
+            // Implement your solution here
+            int result = 0;
+            int ZerosCounter = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] == 0)
+                {
+                    ZerosCounter++;
+                }
+                else
+                {
+                    result += ZerosCounter;
+                    if (result >= 1000000000)
+                        return -1;
+                }
+            }
+
+            return result;
+        }
+    
+
+
+    /// <summary>
+    /// https://app.codility.com/c/run/trainingFW7R8H-353/
+    /// </summary>
+    /// <param name="N"></param>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    public static int[] MaxCounters(int N, int[] A)
+        {
+            // Implement your solution here
+            int[] counters = new int[N];
+            int max = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] > N && max > 0)
+                {
+                    // updatecounters
+                    for (var item = 0; item < counters.Length; item++)
+                    {
+                        counters[item] = max;
+                    }
+                }
+                if (A[i]<=N)
+                {
+                    int index = A[i] - 1;
+                    counters[index]++;
+                    if (max < counters[index])
+                    {
+                        max = counters[index];
+                    }
+                        
+                }
+            }
+            return counters;
+        }
+        public static int[] MaxCounters_optimum(int N, int[] A)
+        {
+            // Implement your solution here
+            int[] counters = new int[N];
+            int max = 0;
+            int Increment = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] > N && max > 0)
+                {
+                    // updatecounters
+                    Increment = max;
+
+                }
+                if (A[i] <= N)
+                {
+                    int index = A[i] - 1;
+
+                    if (counters[index] < Increment)
+                    {
+                        counters[index] = Increment + 1;
+                    }
+                    else
+                    {
+                        counters[index]++;
+                    }
+
+
+                    if (max < counters[index])
+                    {
+                        max = counters[index];
+                    }
+
+                }
+            }
+            for (int i = 0; i < counters.Length; i++)
+            {
+                if (counters[i] < Increment)
+                    counters[i] = Increment;
+            }
+            return counters;
+        }
+
+        /// <summary>
+        /// https://app.codility.com/c/run/trainingEH6B4F-JYH/
+        /// </summary>
+        /// <param name="A"></param>
+        /// <returns></returns>
+        public static int smallest_Positive_Num(int[] A)
+        {
+            // Implement your solution here
+            if (A.Length == 1 && A[0] <= 0)
+                return 1;
+
+            var map = new HashSet<int>();
+
+            int max = 0;
+            foreach (int item in A)
+            {
+                if (item > 0)
+                {
+                    map.Add(item);
+                    if (item > max)
+                        max = item;
+                }
+
+            }
+            for (int i = 1; i < max; i++)
+            {
+                if (!map.Contains(i))
+                {
+                    return i;
+                }
+            }
+            return max + 1;
+        }
+        /// <summary>
         /// https://app.codility.com/programmers/lessons/4-counting_elements/perm_check/
         /// </summary>
         /// <param name="A"></param>
@@ -1530,6 +1756,40 @@ namespace ProblemSolvingSolutions
         {
             this.val = val;
             this.next = next;
+        }
+    }
+
+    public class ShuffleArray
+    {
+        int[] original;
+        int[] input;
+        public ShuffleArray(int[] nums)
+        {
+            original = new int[nums.Length];
+            input = new int[nums.Length];
+            Array.Copy(nums,original,nums.Length);
+            Array.Copy(nums, input, nums.Length);
+        }
+
+        public int[] Reset()
+        {
+            Array.Copy(original, input, input.Length);
+            return input;
+        }
+
+        public int[] Shuffle()
+        {
+            int temp ,tempIndex= 0;
+            Random rand = new Random();
+            for (int i = 0; i < input.Length; i++)
+            {
+                tempIndex = rand.Next(i, input.Length);
+                 temp =input[tempIndex];
+                input[tempIndex] = input[i];
+                input[i]= temp;
+
+            }
+            return input;
         }
     }
 }
