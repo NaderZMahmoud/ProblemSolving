@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,236 +14,134 @@ namespace ProblemSolvingSolutions
     public static class Algorithems
     {
         /// <summary>
-        /// https://app.codility.com/c/run/trainingRT7Y8G-B3D/
+        /// https://leetcode.com/problems/merge-sorted-array/?envType=study-plan-v2&id=top-interview-150
         /// </summary>
-        /// <param name="S"></param>
-        /// <param name="P"></param>
-        /// <param name="Q"></param>
-        /// <returns></returns>
-        public static int[] DNA(string S, int[] P, int[] Q)
+        /// <param name="nums1"></param>
+        /// <param name="m"></param>
+        /// <param name="nums2"></param>
+        /// <param name="n"></param>
+        public static void Merge(int[] nums1, int m, int[] nums2, int n)
         {
-            var result = new int[P.Length];
-            int minValue = 0;
-            // Implement your solution here
-            Dictionary<char, int> map = new Dictionary<char, int>();
-            map.Add('A', 1);
-            map.Add('C', 2);
-            map.Add('G', 3);
-            map.Add('T', 4);
-            for (int i = 0; i < P.Length; i++)
+
+            if (m == 0 && n == 1)
             {
-                if (P[i] == Q[i])
+                nums1[0] = nums2[0];
+            }
+            int first = m - 1;
+            int second = n - 1;
+            int i = m + n - 1;
+            if (n != 0)
+            {
+                while (second >= 0)
                 {
-                    result[i] = map[S[P[i]]];
-                }
-                else
-                {
-                    minValue = map[S[P[i]]];
-                    for (int idx = P[i]; idx <= Q[i]; idx++)
+                    if (first >= 0 && nums1[first] > nums2[second])
                     {
-                        if (minValue > map[S[idx]])
-                        {
-                            minValue = map[S[idx]];
-                        }
-                    }
-                    result[i] = minValue;
-
-                }
-
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// https://app.codility.com/c/run/training37X7QY-GTV/
-        /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
-        /// <param name="K"></param>
-        /// <returns></returns>
-        public static int CountDiv(int A, int B, int K)
-        {
-            // Implement your solution here
-            int start = A;
-            int end = B;
-            int counter = 0;
-            if (A == B)
-                return (A % K) == 0 ? 1 : 0;
-
-            if (K > A && K > B)
-            {
-                return 0;
-            }
-            if (K > A)
-            {
-                start = K;
-                //because 0 is dividable by every number
-                if (A == 0)
-                    counter++;
-            }
-
-            for (int i = start; i <= end; i++)
-            {
-                if ((i % K) == 0)
-                {
-                    counter++;
-                }
-            }
-
-            return counter;
-        }
-
-        public static int CountDiv_Optimum(int A, int B, int K)
-        {
-            // get last dividor - first dividor + ( if first number dividable by k + 1 or not +0 )
-            int inclusive = ((A % K) == 0) ? 1 : 0;
-            return (B / K) - (A / K) + inclusive;
-        }
-        /// <summary>
-        /// https://app.codility.com/c/run/trainingZ3DS88-2R3/
-        /// </summary>
-        /// <param name="A"></param>
-        /// <returns></returns>
-        public static int passingCars(int[] A)
-        {
-            // Implement your solution here
-            int result = 0;
-            int ZerosCounter = 0;
-            for (int i = 0; i < A.Length; i++)
-            {
-                if (A[i] == 0)
-                {
-                    ZerosCounter++;
-                }
-                else
-                {
-                    result += ZerosCounter;
-                    if (result >= 1000000000)
-                        return -1;
-                }
-            }
-
-            return result;
-        }
-    
-
-
-    /// <summary>
-    /// https://app.codility.com/c/run/trainingFW7R8H-353/
-    /// </summary>
-    /// <param name="N"></param>
-    /// <param name="A"></param>
-    /// <returns></returns>
-    public static int[] MaxCounters(int N, int[] A)
-        {
-            // Implement your solution here
-            int[] counters = new int[N];
-            int max = 0;
-            for (int i = 0; i < A.Length; i++)
-            {
-                if (A[i] > N && max > 0)
-                {
-                    // updatecounters
-                    for (var item = 0; item < counters.Length; item++)
-                    {
-                        counters[item] = max;
-                    }
-                }
-                if (A[i]<=N)
-                {
-                    int index = A[i] - 1;
-                    counters[index]++;
-                    if (max < counters[index])
-                    {
-                        max = counters[index];
-                    }
-                        
-                }
-            }
-            return counters;
-        }
-        public static int[] MaxCounters_optimum(int N, int[] A)
-        {
-            // Implement your solution here
-            int[] counters = new int[N];
-            int max = 0;
-            int Increment = 0;
-            for (int i = 0; i < A.Length; i++)
-            {
-                if (A[i] > N && max > 0)
-                {
-                    // updatecounters
-                    Increment = max;
-
-                }
-                if (A[i] <= N)
-                {
-                    int index = A[i] - 1;
-
-                    if (counters[index] < Increment)
-                    {
-                        counters[index] = Increment + 1;
+                        nums1[i] = nums1[first];
+                        first--;
                     }
                     else
                     {
-                        counters[index]++;
+                        nums1[i] = nums2[second];
+                        second--;
                     }
-
-
-                    if (max < counters[index])
-                    {
-                        max = counters[index];
-                    }
-
+                    i--;
                 }
             }
-            for (int i = 0; i < counters.Length; i++)
-            {
-                if (counters[i] < Increment)
-                    counters[i] = Increment;
-            }
-            return counters;
         }
 
+
+        
         /// <summary>
-        /// https://app.codility.com/c/run/trainingEH6B4F-JYH/
+        /// https://leetcode.com/problems/longest-palindromic-substring/solutions/?languageTags=csharp
         /// </summary>
-        /// <param name="A"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static int smallest_Positive_Num(int[] A)
+        public static string LongestPalindrome(string s)
         {
-            // Implement your solution here
-            if (A.Length == 1 && A[0] <= 0)
-                return 1;
-
-            var map = new HashSet<int>();
-
-            int max = 0;
-            foreach (int item in A)
+            int maxLength = 0;
+            string MaxStr = "";
+            for (int idx = 0; idx < s.Length; idx++)
             {
-                if (item > 0)
+                int right = idx;
+                int Left = idx;
+                while (Left >= 0 && right < s.Length && s[Left] == s[right])
                 {
-                    map.Add(item);
-                    if (item > max)
-                        max = item;
+                    if ((right - Left) + 1 > maxLength)
+                    {
+                        maxLength = (right - Left) + 1;
+                        MaxStr = s.Substring(Left, (right - Left) + 1);
+                    }
+                    Left--;
+                    right++;
                 }
 
-            }
-            for (int i = 1; i < max; i++)
-            {
-                if (!map.Contains(i))
+                Left = idx; right = idx + 1;
+                while (Left >= 0 && right < s.Length && s[Left] == s[right])
                 {
-                    return i;
+                    if ((right - Left) + 1 > maxLength)
+                    {
+                        maxLength = (right - Left) + 1;
+                        MaxStr = s.Substring(Left, (right - Left) + 1);
+                    }
+                    Left--;
+                    right++;
                 }
             }
-            return max + 1;
+            return MaxStr;
         }
-        /// <summary>
-        /// https://app.codility.com/programmers/lessons/4-counting_elements/perm_check/
-        /// </summary>
-        /// <param name="A"></param>
-        /// <returns></returns>
+        //public static string AddBinary(string a, string b)
+        //{
+        //    long firstInt = 0;
+        //    long secondInt = 0;
+        //    firstInt = Convert.ToDouble(a,);
+        //    secondInt = Convert.ToInt64(b, 2);
+        //    return Convert.ToString((firstInt + secondInt), 2);
+
+        //}
+
+        //public static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        //{
+        //    ListNode result;
+        //    ListNode CurrentNode;
+        //    ListNode FirstList = l1;
+        //    ListNode SecondList = l2;
+
+        //    if (l1.val == 0 && l2.val == 0)
+        //    {
+        //        result = new ListNode();
+        //        result.val = 0;
+        //        return result;
+        //    }
+        //   int FirstNum = GetNUmberFromList(l1);
+        //    int SecondNum = GetNUmberFromList(l2);  
+        //    string resultNum = (FirstNum+ SecondNum).ToString();
+        //    result = new ListNode();
+        //    result.val = int.Parse(resultNum[resultNum.Length - 1].ToString());
+        //    CurrentNode = new ListNode();
+        //    result.next = CurrentNode;
+        //    for (int idx=resultNum.Length-2; idx>=0; idx--)
+        //    {
+        //        CurrentNode.val= int.Parse(resultNum[idx].ToString());
+        //    }
+
+
+
+        //}
+        private static int GetNUmberFromList(ListNode list)
+        {
+            Stack<int> tempStack = new Stack<int>();
+            StringBuilder tempStr = new StringBuilder();
+            while (list != null)
+            {
+                tempStack.Push(list.val);
+                list = list.next;
+            }
+            while (tempStack.Count > 0)
+            {
+                tempStr.Append(tempStack.Pop());
+            }
+            return int.Parse(tempStr.ToString());
+        }
         public static int PermCheck(int[] A)
         {
             // Implement your solution here
