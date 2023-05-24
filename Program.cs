@@ -38,7 +38,8 @@ stopwatch.Start();
 // Algorithems.CanConstruct("aa", "aab");
 //Algorithems.ClimbStairs(5);
 //Algorithems.IsPalindrome("A man, a plan, a canal: Panama");
-Algorithems.SingleNumber_III(new int[] { 1, 2, 1, 3, 2, 5 });
+//Algorithems.SingleNumber_III(new int[] { 1, 2, 1, 3, 2, 5 });
+Algorithems.Average(2, 1);
 stopwatch.Stop();
 
 Console.WriteLine(stopwatch.ElapsedMilliseconds);

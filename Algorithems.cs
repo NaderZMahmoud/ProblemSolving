@@ -14,6 +14,130 @@ namespace ProblemSolvingSolutions
     public static class Algorithems
     {
         /// <summary>
+        /// https://leetcode.com/problems/word-pattern/?envType=study-plan-v2&id=top-interview-150
+        /// Bad Performance because of the search dictionary by value
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static bool WordPattern(string pattern, string s)
+        {
+            string[] words = s.Split(' ');
+            if(words.Length != pattern.Length)
+            {
+                return false;
+            }
+            // use 2 dictionaries to increase search performance 
+            var map= new Dictionary<char,string>();
+            var mapRev= new Dictionary<string,char>();
+            for(int idx =0; idx < words.Length; idx++)
+            {
+                if (map.ContainsKey(pattern[idx]))
+                {
+                    if (map[pattern[idx]] != words[idx])
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (mapRev.ContainsKey(words[idx])) return false;
+                        map.Add(pattern[idx], words[idx]);
+                        mapRev.Add(words[idx], pattern[idx]);
+                }
+            }
+            return true;
+
+        }
+        /// <summary>
+        /// https://leetcode.com/problems/isomorphic-strings/?envType=study-plan-v2&id=top-interview-150
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsIsomorphic(string s, string t)
+        {
+            if (s.Length != t.Length)
+                return false;
+            Dictionary<char, char> map = new Dictionary<char, char>();
+            for (int idx = 0; idx < s.Length; idx++)
+            {
+                if (map.ContainsKey(s[idx]))
+                {
+                    if (map[s[idx]] != t[idx])
+                        return false;
+                }
+                else
+                {
+                    if (map.ContainsValue(t[idx]))
+                        return false;
+                    map.Add(s[idx], t[idx]);
+                }
+            }
+            return true;
+        }
+
+        public static double Average(double a, double b)
+        {
+            double result = (a + b) / 2 ;
+            return result;
+        }
+        /// <summary>
+        /// https://leetcode.com/problems/is-subsequence/?envType=study-plan-v2&id=top-interview-150
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+
+        public static  bool IsSubsequence(string s, string t)
+        {
+            if (string.IsNullOrEmpty(s))
+                return true;
+            Queue<char> chars = new Queue<char>();
+            foreach (var item in s)
+            {
+                chars.Enqueue(item);
+            }
+            foreach (var item in t)
+            {
+                if(item == chars.FirstOrDefault())
+                {
+                    chars.Dequeue();
+                }
+            }
+            return chars.Count == 0 ?true : false;
+        }
+        /// <summary>
+        /// https://leetcode.com/problems/is-subsequence/submissions/956711753/?envType=study-plan-v2&id=top-interview-150
+        /// Beats 100% :) 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool IsSubsequence_2(string s, string t)
+        {
+            if (string.IsNullOrEmpty(s))
+                return true;
+
+            int first = 0; int second = 0;
+           for(int idx=0; idx<t.Length; idx++)
+            {
+                if (s[first] == t[second])
+                {
+                    first++;
+                    second++;
+                }
+                else
+                {
+                    second++;
+                }
+
+                if(first == s.Length)
+                    return true;
+            }
+           return false;
+        }
+        /// <summary>
         /// https://leetcode.com/problems/merge-sorted-array/?envType=study-plan-v2&id=top-interview-150
         /// </summary>
         /// <param name="nums1"></param>
