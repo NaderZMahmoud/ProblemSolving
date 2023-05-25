@@ -10,14 +10,13 @@
 //OddOccuranceINArray(A);
 
 //FrogJumb(10, 90, 30);
-using ProblemSolvingSolutions;
 using System.Diagnostics;
 
 int[] A = new int[] { -1000, 1000 };
 //TapeEquilibrium(A);
 
 
-var myArray = Algorithems.GenerateRandomArray();
+var myArray = ProblemSolving.Solutions.Algorithems.GenerateRandomArray();
 
 Stopwatch stopwatch = new Stopwatch();
 stopwatch.Start();
@@ -39,7 +38,7 @@ stopwatch.Start();
 //Algorithems.ClimbStairs(5);
 //Algorithems.IsPalindrome("A man, a plan, a canal: Panama");
 //Algorithems.SingleNumber_III(new int[] { 1, 2, 1, 3, 2, 5 });
-Algorithems.Average(2, 1);
+ProblemSolving.Solutions.Algorithems.Average(2, 1);
 stopwatch.Stop();
 
 Console.WriteLine(stopwatch.ElapsedMilliseconds);
